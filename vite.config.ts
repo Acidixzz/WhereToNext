@@ -1,9 +1,9 @@
 import { defineConfig } from 'vite'
 import tailwindcss from '@tailwindcss/vite'
 
-const GITHUB_PAGES_BASE = '/WebMapping/project/'
+const GITHUB_PAGES_BASE = '/WhereToNext/'
 
-/** GitHub Pages: https://acidixzz.github.io/WebMapping/project/ */
+/** GitHub Pages: https://acidixzz.github.io/WhereToNext/ */
 function resolveBase(mode: string): string {
     const raw = process.env.VITE_BASE_PATH?.trim()
     if (raw) return raw.endsWith('/') ? raw : `${raw}/`
@@ -15,7 +15,7 @@ export default defineConfig(({ mode }) => {
     if (mode === 'pages' && !process.env.VITE_MAPBOX_ACCESS_TOKEN?.trim()) {
         throw new Error(
             'VITE_MAPBOX_ACCESS_TOKEN is required for build:pages. ' +
-                'Locally: set it in project/.env. On GitHub Actions: add repository secret MAPBOX_ACCESS_TOKEN (pk...).',
+                'Locally: set it in .env. On GitHub Actions: add repository secret MAPBOX_ACCESS_TOKEN (pk...).',
         )
     }
 
