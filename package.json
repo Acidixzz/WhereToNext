@@ -7,6 +7,7 @@
     "dev": "vite",
     "build": "tsc && vite build",
     "build:pages": "tsc && vite build --mode pages",
+    "prepreview": "npm run build",
     "preview": "vite preview",
     "preview:pages": "npm run build:pages && vite preview --mode pages"
   },
