@@ -13,16 +13,23 @@
     <input id="app-drawer" type="checkbox" class="drawer-toggle" />
     <div class="drawer-content flex min-h-dvh min-w-0 flex-col">
       <nav class="navbar w-full shrink-0 shadow-sm bg-base-200">
-        <label for="app-drawer" aria-label="Expand or collapse sidebar" class="btn btn-square btn-ghost">
+        <label for="app-drawer" aria-label="Expand or collapse sidebar" class="btn btn-square btn-ghost shrink-0">
           <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
             class="inline-block h-5 w-5 stroke-current">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
           </svg>
         </label>
-        <div id="title-text" class="min-w-0 truncate px-4 text-lg font-semibold tracking-tight">
+        <div id="title-text" class="min-w-0 flex-1 truncate px-4 text-lg font-semibold tracking-tight">
           <span class="hidden max-[420px]:inline">Where to Next?</span>
           <span class="max-[420px]:hidden">Where to Next? Affordability & Amenities Map</span>
+          <div id="byline" style="color: #64748b;" class="text-sm font-normal">
+            By: Owen Wilson
+          </div>
         </div>
+        <button type="button" class="btn btn-square btn-ghost ms-auto shrink-0" aria-label="Open works cited"
+          onclick="work_cited_dialog.showModal()">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tabler icons-tabler-outline icon-tabler-info-circle"><path stroke="none" d="M0 0h24v24H0z" fill="none" /><path d="M3 12a9 9 0 1 0 18 0a9 9 0 0 0 -18 0" /><path d="M12 9h.01" /><path d="M11 12h1v4h1" /></svg>
+        </button>
       </nav>
 
       <div class="map-shell">
@@ -363,6 +370,59 @@
       <button type="submit" class="absolute inset-0 cursor-default" aria-label="Close dialog">close</button>
     </form>
   </dialog>
+  
+  <dialog id="work_cited_dialog" class="modal">
+    <div class="modal-box">
+      <form method="dialog">
+        <button type="submit" class="btn btn-sm btn-circle btn-ghost absolute end-2 top-2" aria-label="Close">✕</button>
+      </form>
+      <h3 class="pe-10 text-lg font-bold leading-tight">Work Cited</h3>
+      <ul class="list-disc space-y-3 pt-2 pl-5 text-sm">
+        <li>
+          <a href="https://daisyui.com/" target="_blank" rel="noopener noreferrer" class="inline no-underline">
+            <span class="text-neutral-800">DaisyUI component library</span><span
+              class="link link-hover link-info"> · daisyui.com</span>
+          </a>
+        </li>
+        <li>
+          <a href="https://docs.mapbox.com/api/search/search-box/" target="_blank" rel="noopener noreferrer"
+            class="inline no-underline">
+            <span class="text-neutral-800">POI markers</span><span class="link link-hover link-info"> ·
+              docs.mapbox.com/api/search/search-box/</span>
+          </a>
+        </li>
+        <li>
+          <a href="https://www.arcgis.com/home/item.html?id=8c2d6d7df8fa4142b0a1211c8dd66903" target="_blank"
+            rel="noopener noreferrer" class="inline no-underline">
+            <span class="text-neutral-800">State polygons</span><span class="link link-hover link-info"> ·
+              arcgis.com/home/item.html?id=8c2d6d7d…</span>
+          </a>
+        </li>
+        <li>
+          <a href="https://www.arcgis.com/home/item.html?id=3c164274a80748dda926a046525da610" target="_blank"
+            rel="noopener noreferrer" class="inline no-underline">
+            <span class="text-neutral-800">County polygons</span><span class="link link-hover link-info"> ·
+              arcgis.com/home/item.html?id=3c164274…</span>
+          </a>
+        </li>
+        <li>
+          <a href="https://data.census.gov/table?q=B25064:+MEDIAN+GROSS+RENT+(DOLLARS)" target="_blank"
+            rel="noopener noreferrer" class="inline no-underline">
+            <span class="text-neutral-800">Median rent data</span><span class="link link-hover link-info"> ·
+              data.census.gov/table?q=B25064…</span>
+          </a>
+        </li>
+        <li>
+          <a href="https://data.census.gov/table/ACSDT1Y2024.B25088?q=B25088:+Median+Selected+Monthly+Owner+Costs+(Dollars)+by+Mortgage+Status"
+            target="_blank" rel="noopener noreferrer" class="inline no-underline">
+            <span class="text-neutral-800">Median mortgage data</span><span class="link link-hover link-info"> ·
+              data.census.gov/table/ACSDT1Y2024.B25088…</span>
+          </a>
+        </li>
+      </ul>
+    </div>
+  </dialog>
+  
 
   <script type="module" src="/src/main.ts"></script>
 </body>
