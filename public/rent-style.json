@@ -1,0 +1,241 @@
+{
+    "version": 8,
+    "name": "Rent",
+    "center": [
+        -34,
+        38
+    ],
+    "zoom": 2,
+    "lights": [],
+    "terrain": null,
+    "imports": [
+        {
+            "id": "basemap",
+            "url": "mapbox://styles/mapbox/standard",
+            "config": {
+                "showLandmarkIcons": false,
+                "showPlaceLabels": false,
+                "theme": "faded",
+                "showIndoor": false,
+                "showPointOfInterestLabels": true,
+                "lightPreset": "dawn",
+                "showTransitLabels": false,
+                "showAdminBoundaries": false,
+                "showRoadLabels": true
+            }
+        }
+    ],
+    "sources": {
+        "rent-states": {
+            "type": "vector",
+            "url": "mapbox://owenwilson80.1d31qo91",
+            "promoteId": "OBJECTID"
+        },
+        "rent-counties": {
+            "type": "vector",
+            "url": "mapbox://owenwilson80.b812o5x6",
+            "promoteId": "OBJECTID"
+        }
+    },
+    "sprite": "mapbox://sprites/owenwilson80/cmomgmhvc000l01pz68bngoth/b8fjw435hx85pp7j172f016pl",
+    "glyphs": "mapbox://fonts/mapbox/{fontstack}/{range}.pbf",
+    "projection": {
+        "name": "mercator"
+    },
+    "layers": [
+        {
+            "id": "rent-county-fill",
+            "type": "fill",
+            "metadata": {
+                "mapbox:featureStateHandler": {
+                    "hover": "Hover"
+                }
+            },
+            "source": "rent-counties",
+            "source-layer": "USACounties-dd49p2",
+            "slot": "top",
+            "paint": {
+                "fill-color": [
+                    "case",
+                    [
+                        "to-boolean",
+                        [
+                            "feature-state",
+                            "hover"
+                        ]
+                    ],
+                    [
+                        "interpolate",
+                        [
+                            "linear"
+                        ],
+                        [
+                            "get",
+                            "MEDIAN_RENT"
+                        ],
+                        800,
+                        "#e0cf84",
+                        1200,
+                        "#e28769",
+                        1600,
+                        "#b5547d",
+                        2200,
+                        "#4a4387"
+                    ],
+                    [
+                        "interpolate",
+                        [
+                            "linear"
+                        ],
+                        [
+                            "get",
+                            "MEDIAN_RENT"
+                        ],
+                        800,
+                        "#f3e79b",
+                        1200,
+                        "#f8a07e",
+                        1600,
+                        "#ce6693",
+                        2200,
+                        "#5c53a5"
+                    ]
+                ],
+                "fill-opacity": [
+                    "interpolate",
+                    [
+                        "linear"
+                    ],
+                    [
+                        "zoom"
+                    ],
+                    8,
+                    1,
+                    9,
+                    0
+                ]
+            }
+        },
+        {
+            "id": "rent-state-fill",
+            "type": "fill",
+            "metadata": {
+                "mapbox:featureStateHandler": {
+                    "hover": "Hover"
+                }
+            },
+            "source": "rent-states",
+            "source-layer": "USAStates-9wvuu8",
+            "slot": "top",
+            "paint": {
+                "fill-color": [
+                    "case",
+                    [
+                        "boolean",
+                        [
+                            "feature-state",
+                            "hover"
+                        ],
+                        false
+                    ],
+                    [
+                        "interpolate",
+                        [
+                            "linear"
+                        ],
+                        [
+                            "get",
+                            "MEDIAN_RENT"
+                        ],
+                        800,
+                        "#e0cf84",
+                        1200,
+                        "#e28769",
+                        1600,
+                        "#b5547d",
+                        2200,
+                        "#4a4387"
+                    ],
+                    [
+                        "interpolate",
+                        [
+                            "linear"
+                        ],
+                        [
+                            "get",
+                            "MEDIAN_RENT"
+                        ],
+                        800,
+                        "#f3e79b",
+                        1200,
+                        "#f8a07e",
+                        1600,
+                        "#ce6693",
+                        2200,
+                        "#5c53a5"
+                    ]
+                ],
+                "fill-opacity": [
+                    "interpolate",
+                    [
+                        "linear"
+                    ],
+                    [
+                        "zoom"
+                    ],
+                    5,
+                    1,
+                    6,
+                    0
+                ],
+                "fill-outline-color": "#000000"
+            }
+        },
+        {
+            "id": "rent-state-14x3h1",
+            "type": "line",
+            "source": "rent-states",
+            "source-layer": "USAStates-9wvuu8",
+            "slot": "top",
+            "paint": {
+                "line-width": 2,
+                "line-opacity": [
+                    "interpolate",
+                    [
+                        "linear"
+                    ],
+                    [
+                        "zoom"
+                    ],
+                    5,
+                    1,
+                    6,
+                    0.3
+                ]
+            }
+        },
+        {
+            "id": "rent-county-4255ie",
+            "type": "line",
+            "source": "rent-counties",
+            "source-layer": "USACounties-dd49p2",
+            "slot": "top",
+            "paint": {
+                "line-width": 0.25,
+                "line-opacity": [
+                    "interpolate",
+                    [
+                        "linear"
+                    ],
+                    [
+                        "zoom"
+                    ],
+                    5,
+                    0,
+                    6,
+                    1
+                ]
+            }
+        }
+    ]
+}

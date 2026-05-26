@@ -1,0 +1,367 @@
+<!doctype html>
+<html lang="en" data-theme="light">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Where to Next</title>
+</head>
+
+<body>
+
+  <div class="drawer lg:drawer-open min-h-dvh">
+    <input id="app-drawer" type="checkbox" class="drawer-toggle" />
+    <div class="drawer-content flex min-h-dvh min-w-0 flex-col">
+      <nav class="navbar w-full shrink-0 shadow-sm bg-base-200">
+        <label for="app-drawer" aria-label="Expand or collapse sidebar" class="btn btn-square btn-ghost">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+            class="inline-block h-5 w-5 stroke-current">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+          </svg>
+        </label>
+        <div class="px-4 text-lg font-semibold tracking-tight">Where to Next? Affordability & Amenities Map</div>
+      </nav>
+
+      <div class="map-shell">
+        <!-- Main Map -->
+        <div id="map-main" class="map-main"></div>
+
+        <div class="map-corner-stack" aria-label="Map overlays">
+          <aside id="map-legend" class="map-legend" aria-label="Map legend">
+            <h2 class="map-legend-title">Legend</h2>
+            <section class="map-legend-section" aria-labelledby="legend-rent-heading">
+              <h3 id="legend-rent-heading" class="map-legend-heading">Median rent</h3>
+              <div id="legend-rent-ramp" class="map-legend-ramp" aria-hidden="false">
+                <div id="legend-rent-ramp-bar" class="map-legend-ramp-bar" role="img"
+                  aria-label="Median rent color scale from low to high"></div>
+                <div class="map-legend-ramp-labels">
+                  <span id="legend-rent-min" class="map-legend-ramp-bound"></span>
+                  <span id="legend-rent-max" class="map-legend-ramp-bound"></span>
+                </div>
+              </div>
+              <p id="legend-rent-footnote" class="map-legend-footnote">Applies to states and counties</p>
+            </section>
+            <section class="map-legend-section" aria-labelledby="legend-poi-heading">
+              <h3 id="legend-poi-heading" class="map-legend-heading">Points of interest</h3>
+              <ul id="legend-poi-list" class="map-legend-poi"></ul>
+              <p id="legend-poi-empty" class="map-legend-empty hidden">No searches yet.</p>
+            </section>
+          </aside>
+
+          <aside id="map-feature-panel" class="map-feature-panel is-empty" aria-live="polite"
+            aria-label="Hovered region details">
+            <p id="map-feature-panel-placeholder" class="map-feature-panel-placeholder">Hover a state or county on the
+              map.</p>
+            <div id="map-feature-panel-body" class="map-feature-panel-body">
+              <h2 id="state-hover-card-title" class="map-feature-panel-title"></h2>
+              <div class="flex flex-row gap-1">
+                <p id="state-hover-card-rent" class="map-feature-panel-rent">
+                <p id="state-hover-card-rent-number" class="map-feature-panel-rent-number"></p>
+                </p>
+              </div>
+              <p class="map-feature-panel-subhead">Saved markers by search</p>
+              <ul id="state-hover-card-markers" class="map-feature-panel-markers"></ul>
+            </div>
+          </aside>
+        </div>
+
+        <!-- Alaska Map -->
+        <div id="inset-alaska" class="overlay-inset"
+          style="--left: 12px; --bottom: 12px; --card-w: clamp(235px, 24vw, 320px); --frame-h: clamp(150px, 17vw, 215px);">
+          <section id="overlay-alaska" class="overlay-map">
+            <div class="overlay-header">
+              <h2>Alaska</h2>
+              <div>
+                <button id="expand-alaska" type="button" class="close-button btn btn-sm btn-circle"
+                  aria-label="Expand Alaska inset" aria-expanded="false">
+                  <span aria-hidden="true" class="inset-zoom-icon-expand inline-flex">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none"
+                      stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                      class="icon icon-tabler icons-tabler-outline icon-tabler-maximize">
+                      <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                      <path d="M4 8v-2a2 2 0 0 1 2 -2h2" />
+                      <path d="M4 16v2a2 2 0 0 0 2 2h2" />
+                      <path d="M16 4h2a2 2 0 0 1 2 2v2" />
+                      <path d="M16 20h2a2 2 0 0 0 2 -2v-2" />
+                    </svg>
+                  </span>
+                  <span aria-hidden="true" class="inset-zoom-icon-shrink hidden inline-flex">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none"
+                      stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                      class="icon icon-tabler icons-tabler-outline icon-tabler-minimize">
+                      <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                      <path d="M15 19v-2a2 2 0 0 1 2 -2h2" />
+                      <path d="M15 5v2a2 2 0 0 0 2 2h2" />
+                      <path d="M5 15h2a2 2 0 0 1 2 2v2" />
+                      <path d="M5 9h2a2 2 0 0 0 2 -2v-2" />
+                    </svg>
+                  </span>
+                </button>
+                <button id="close-alaska" type="button" class="close-button btn btn-sm btn-circle"
+                  aria-label="Close Alaska inset">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none"
+                    stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                    class="lucide lucide-x">
+                    <path d="M18 6 6 18" />
+                    <path d="m6 6 12 12" />
+                  </svg>
+                </button>
+              </div>
+            </div>
+            <div id="map-alaska" class="overlay-map-frame"></div>
+          </section>
+        </div>
+        <!-- Hawaii Map -->
+        <div id="inset-hawaii" class="overlay-inset"
+          style="--left: calc(24px + clamp(235px, 24vw, 320px)); --bottom: 12px; --card-w: clamp(190px, 20vw, 260px); --frame-h: clamp(120px, 13vw, 165px);">
+          <section id="overlay-hawaii" class="overlay-map">
+            <div class="overlay-header">
+              <h2>Hawaii</h2>
+              <div>
+                <button id="expand-hawaii" type="button" class="close-button btn btn-sm btn-circle"
+                  aria-label="Expand Hawaii inset" aria-expanded="false">
+                  <span aria-hidden="true" class="inset-zoom-icon-expand inline-flex">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none"
+                      stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                      class="icon icon-tabler icons-tabler-outline icon-tabler-maximize">
+                      <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                      <path d="M4 8v-2a2 2 0 0 1 2 -2h2" />
+                      <path d="M4 16v2a2 2 0 0 0 2 2h2" />
+                      <path d="M16 4h2a2 2 0 0 1 2 2v2" />
+                      <path d="M16 20h2a2 2 0 0 0 2 -2v-2" />
+                    </svg>
+                  </span>
+                  <span aria-hidden="true" class="inset-zoom-icon-shrink hidden inline-flex">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none"
+                      stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                      class="icon icon-tabler icons-tabler-outline icon-tabler-minimize">
+                      <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                      <path d="M15 19v-2a2 2 0 0 1 2 -2h2" />
+                      <path d="M15 5v2a2 2 0 0 0 2 2h2" />
+                      <path d="M5 15h2a2 2 0 0 1 2 2v2" />
+                      <path d="M5 9h2a2 2 0 0 0 2 -2v-2" />
+                    </svg>
+                  </span>
+                </button>
+                <button id="close-hawaii" type="button" class="close-button btn btn-sm btn-circle"
+                  aria-label="Close Hawaii inset"><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18"
+                    viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                    stroke-linejoin="round" class="lucide lucide-x">
+                    <path d="M18 6 6 18" />
+                    <path d="m6 6 12 12" />
+                  </svg>
+                </button>
+              </div>
+            </div>
+            <div id="map-hawaii" class="overlay-map-frame"></div>
+          </section>
+        </div>
+      </div>
+    </div>
+
+    <!-- Sidebar Drawer -->
+    <div class="drawer-side z-20 max-lg:z-40 is-drawer-close:overflow-visible lg:min-h-dvh">
+      <!-- Drawer interaction element -->
+      <label for="app-drawer" aria-label="close sidebar" class="drawer-overlay lg:pointer-events-none"></label>
+      <div
+        class="flex h-full min-h-dvh max-h-full shrink-0 flex-col gap-4 overflow-y-auto overflow-x-hidden bg-base-100 p-4 is-drawer-close:w-24 is-drawer-open:w-80 is-drawer-close:overflow-x-visible">
+
+        <!-- Points of Interest -->
+        <section>
+          <details class="collapse border border-base-300">
+            <summary class="collapse-title font-semibold flex flex-row items-center gap-3 text-nowrap">
+              <span class="drawer-section-tip" data-tip="Points of interest" aria-label="Points of interest"
+                tabindex="0">
+                <svg xmlns="http://www.w3.org/2000/svg" class="size-6 shrink-0" width="24" height="24"
+                  viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                  stroke-linejoin="round" aria-hidden="true">
+                  <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                  <path d="M14.916 11.707a3 3 0 1 0 -2.916 2.293" />
+                  <path d="M11.991 21.485a1.994 1.994 0 0 1 -1.404 -.585l-4.244 -4.243a8 8 0 1 1 13.651 -5.351" />
+                  <path d="M15 18a3 3 0 1 0 6 0a3 3 0 1 0 -6 0" />
+                  <path d="M20.2 20.2l1.8 1.8" />
+                </svg>
+              </span>
+              <p class="is-drawer-close:hidden">Points of interest</p>
+            </summary>
+            <div class="collapse-content is-drawer-close:hidden">
+              <div id="poi-search-wrap" class="relative mt-2 w-full">
+                <div class="join join-horizontal w-full">
+                  <input id="poi-search-input" type="search" autocomplete="off" aria-autocomplete="list"
+                    aria-controls="poi-suggest-list" aria-expanded="false"
+                    class="input input-bordered join-item min-w-0 flex-1 text-sm" placeholder="Search places…" />
+                  <button type="button" id="poi-add-button" class="btn join-item shrink-0">Add</button>
+                </div>
+              </div>
+              <p id="poi-brand-filter-hint"
+                class="mt-1 hidden flex min-h-[1.25rem] flex-row flex-wrap items-baseline gap-2 text-[11px] leading-snug text-base-content/70">
+                <span id="poi-brand-filter-text"></span>
+                <button type="button" id="poi-clear-suggest-filter"
+                  class="link link-hover text-[11px] font-normal underline-offset-2">Clear filter</button>
+              </p>
+              <p id="poi-search-status" class="mt-1 min-h-[1.25rem] text-xs opacity-80"></p>
+              <progress id="poi-state-progress" class="progress progress-neutral mt-2 hidden w-full" value="0"
+                max="50"></progress>
+              <ul id="poi-saved-list" class="mt-2 flex flex-col gap-1"></ul>
+            </div>
+          </details>
+
+        </section>
+
+        <!-- Rent vs Mortgage selector -->
+
+        <section>
+          <details class="collapse border border-base-300">
+            <summary class="collapse-title font-semibold flex flex-row items-center gap-3 text-nowrap">
+              <span class="drawer-section-tip" data-tip="Home Type" aria-label="Home Type" tabindex="0">
+                <svg xmlns="http://www.w3.org/2000/svg" class="size-6 shrink-0" width="24" height="24"
+                  viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                  stroke-linejoin="round" aria-hidden="true">
+                  <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                  <path d="M19 10l-7 -7l-9 9h2v7a2 2 0 0 0 2 2h6" />
+                  <path d="M9 21v-6a2 2 0 0 1 2 -2h2c.387 0 .748 .11 1.054 .3" />
+                  <path d="M21 15h-2.5a1.5 1.5 0 0 0 0 3h1a1.5 1.5 0 0 1 0 3h-2.5" />
+                  <path d="M19 21v1m0 -8v1" />
+                </svg>
+              </span>
+              <p class="is-drawer-close:hidden">Home Type</p>
+            </summary>
+            <div class="collapse-content is-drawer-close:hidden">
+              <div class="join mt-2 w-full justify-center">
+                <input id="rent" class="join-item btn w-1/2 checked:btn-neutral checked:text-neutral-content"
+                  type="radio" name="HomeType" aria-label="Rent" checked />
+                <input id="mortgage" class="join-item btn w-1/2 checked:btn-neutral checked:text-neutral-content"
+                  type="radio" name="HomeType" aria-label="Mortgage" />
+              </div>
+              <div class="divider my-2"></div>
+              <!-- Min / max price (wired in DrawerIcons.ts) -->
+              <div class="mt-3 flex flex-col gap-3">
+                <div id="rent-budget-panel"
+                  class="rounded-box border border-base-300/80 bg-gradient-to-br from-base-100 to-base-200/80 p-3 shadow-sm backdrop-blur-sm">
+                  <div class="mb-3 flex items-baseline justify-between gap-2">
+                    <span class="text-xs font-semibold tracking-wide text-base-content/80">Monthly rent budget</span>
+                    <span class="text-[10px] font-normal tabular-nums text-base-content/45">$0–$3,000</span>
+                  </div>
+                  <div class="flex flex-nowrap items-end gap-3">
+                    <label class="form-control min-w-0 flex-1" for="rent-min-display"><span
+                        class="label py-1 text-xs opacity-85">Min</span>
+                      <input id="rent-min-display" type="text" autocomplete="off" spellcheck="false" inputmode="numeric"
+                        class="input input-bordered input-sm w-full text-center tabular-nums font-mono" />
+                    </label>
+                    <span class="shrink-0 self-end pb-2 text-base-content/45">—</span>
+                    <label class="form-control min-w-0 flex-1" for="rent-max-display"><span
+                        class="label py-1 text-xs opacity-85">Max</span>
+                      <input id="rent-max-display" type="text" autocomplete="off" spellcheck="false" inputmode="numeric"
+                        class="input input-bordered input-sm w-full text-center tabular-nums font-mono" />
+                    </label>
+                  </div>
+                </div>
+
+                <div id="mortgage-budget-panel"
+                  class="hidden rounded-box border border-base-300/80 bg-gradient-to-br from-base-100 to-base-200/80 p-3 shadow-sm backdrop-blur-sm">
+                  <div class="mb-3 flex items-baseline justify-between gap-2">
+                    <span class="text-xs font-semibold tracking-wide text-base-content/80">Mortgage payment
+                      band</span>
+                    <span class="text-[10px] font-normal tabular-nums text-base-content/45">$0–$4,000</span>
+                  </div>
+                  <div class="flex flex-nowrap items-end gap-3">
+                    <label class="form-control min-w-0 flex-1" for="mortgage-min-display"><span
+                        class="label py-1 text-xs opacity-85">Min</span>
+                      <input id="mortgage-min-display" type="text" autocomplete="off" spellcheck="false"
+                        inputmode="numeric"
+                        class="input input-bordered input-sm w-full text-center tabular-nums font-mono" />
+                    </label>
+                    <span class="shrink-0 self-end pb-2 text-base-content/45">—</span>
+                    <label class="form-control min-w-0 flex-1" for="mortgage-max-display"><span
+                        class="label py-1 text-xs opacity-85">Max</span>
+                      <input id="mortgage-max-display" type="text" autocomplete="off" spellcheck="false"
+                        inputmode="numeric"
+                        class="input input-bordered input-sm w-full text-center tabular-nums font-mono" />
+                    </label>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </details>
+        </section>
+
+        <section>
+          <details id="map-display-details" class="collapse border border-base-300" open>
+            <summary class="collapse-title font-semibold flex flex-row items-center gap-3 text-nowrap">
+              <span class="drawer-section-tip" data-tip="Map display" aria-label="Map display" tabindex="0">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                  stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                  class="size-6 shrink-0" aria-hidden="true">
+                  <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                  <path d="M12 18.5l-3 -1.5l-6 3v-13l6 -3l6 3l6 -3v8" />
+                  <path d="M9 4v13" />
+                  <path d="M15 7v6.5" />
+                  <path d="M17.001 19a2 2 0 1 0 4 0a2 2 0 1 0 -4 0" />
+                  <path d="M19.001 15.5v1.5" />
+                  <path d="M19.001 21v1.5" />
+                  <path d="M22.032 17.25l-1.299 .75" />
+                  <path d="M17.27 20l-1.3 .75" />
+                  <path d="M15.97 17.25l1.3 .75" />
+                  <path d="M20.733 20l1.3 .75" />
+                </svg>
+              </span>
+              <p class="is-drawer-close:hidden">Map display</p>
+            </summary>
+            <div class="collapse-content is-drawer-close:hidden">
+              <div class="mt-2 flex flex-col gap-2">
+                <label class="flex cursor-pointer items-center justify-between gap-3 py-1">
+                  <span class="text-sm">Legend</span>
+                  <input id="toggle-legend" type="checkbox" class="toggle toggle-sm" checked
+                    aria-label="Show legend on map" />
+                </label>
+                <label class="flex cursor-pointer items-center justify-between gap-3 py-1">
+                  <span class="text-sm">Alaska inset</span>
+                  <input id="toggle-alaska" type="checkbox" class="toggle toggle-sm" checked
+                    aria-label="Show Alaska inset map" />
+                </label>
+                <label class="flex cursor-pointer items-center justify-between gap-3 py-1">
+                  <span class="text-sm">Hawaii inset</span>
+                  <input id="toggle-hawaii" type="checkbox" class="toggle toggle-sm" checked
+                    aria-label="Show Hawaii inset map" />
+                </label>
+              </div>
+            </div>
+          </details>
+        </section>
+
+      </div>
+    </div>
+  </div>
+
+  <div id="drawer-section-tooltip"
+    class="drawer-section-tooltip pointer-events-none fixed z-[10050] hidden max-w-[14rem] rounded-md bg-neutral px-2.5 py-1.5 text-xs font-medium text-neutral-content shadow-lg"
+    role="tooltip"></div>
+
+  <!-- Anchored under #poi-search-wrap via JS (fixed); lives outside scrolling drawer so it isn’t clipped. -->
+  <ul id="poi-suggest-list" role="listbox" aria-label="Place suggestions"
+    class="fixed z-[9999] hidden max-h-52 overflow-y-auto rounded-box border border-base-300 bg-base-100 p-1 text-sm shadow-lg">
+  </ul>
+
+  <dialog id="state-hover-dialog" class="modal modal-middle">
+    <div class="modal-box state-hover-modal-box max-h-[85dvh] overflow-y-auto">
+      <form method="dialog">
+        <button type="submit" class="btn btn-sm btn-circle btn-ghost absolute end-2 top-2" aria-label="Close">✕</button>
+      </form>
+      <h3 id="state-hover-modal-title" class="pe-10 text-lg font-bold leading-tight"></h3>
+      <div class="flex flex-row gap-1">
+        <p id="state-hover-modal-rent" class="mt-2 text-sm text-base-content/80">
+        <p id="state-hover-modal-rent-number" class="mt-2 text-sm text-base-content font-bold"></p>
+        </p>
+      </div>
+      <p class="mt-3 text-xs font-semibold text-base-content/90">Saved markers by search</p>
+      <ul id="state-hover-modal-markers" class="mt-1 max-h-[50dvh] list-none space-y-2 overflow-y-auto text-sm"></ul>
+    </div>
+    <form method="dialog" class="modal-backdrop">
+      <button type="submit" class="absolute inset-0 cursor-default" aria-label="Close dialog">close</button>
+    </form>
+  </dialog>
+
+  <script type="module" src="/src/main.ts"></script>
+</body>
+
+</html>

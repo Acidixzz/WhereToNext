@@ -1,0 +1,517 @@
+@import "tailwindcss";
+@plugin "../node_modules/daisyui/index.js";
+
+body {
+  margin: 0;
+  padding: 0;
+  font-family: system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
+}
+
+/*
+ * Drawer: the inner panel has `w-80` / `bg-base-200`, but the `.drawer-side` grid cell
+ * can still show body background as a white strip. Paint and stretch the whole rail.
+ */
+.drawer>.drawer-side {
+  align-self: stretch;
+  background-color: var(--color-base-200);
+}
+
+.drawer>.drawer-side> :not(.drawer-overlay) {
+  align-self: stretch;
+}
+
+h1 {
+  font-weight: bold;
+  font-size: large;
+  padding-top: 10px;
+  padding-bottom: 10px;
+}
+
+/* Map fills the drawer main column below the navbar */
+.map-shell {
+  position: relative;
+  flex: 1 1 0%;
+  min-height: 0;
+  width: 100%;
+}
+
+.map-main {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.map-corner-stack {
+  position: absolute;
+  top: 12px;
+  left: 12px;
+  z-index: 32;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  gap: 10px;
+  max-width: min(36rem, calc(100% - 24px));
+  pointer-events: none;
+}
+
+.map-corner-stack > * {
+  pointer-events: auto;
+}
+
+.map-legend,
+.map-feature-panel {
+  flex: 0 1 auto;
+  max-width: min(16rem, calc(100vw - 24px));
+  padding: 10px 12px;
+  border-radius: 10px;
+  border: 1px solid #d9e1ec;
+  background: rgba(255, 255, 255, 0.95);
+  box-shadow: 0 6px 20px rgba(15, 23, 42, 0.18);
+  font-size: 12px;
+  line-height: 1.35;
+  color: #0f172a;
+  user-select: none;
+}
+
+.map-legend {
+  max-width: min(16rem, calc(100% - 24px));
+}
+
+.map-legend.is-hidden {
+  display: none;
+}
+
+.map-legend.is-closing {
+  animation: inset-close 220ms ease forwards;
+}
+
+.map-legend.is-opening {
+  animation: inset-open 220ms ease forwards;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .map-legend.is-closing,
+  .map-legend.is-opening {
+    animation: none;
+  }
+}
+
+.map-legend-title {
+  margin: 0 0 8px;
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.map-legend-section + .map-legend-section {
+  margin-top: 10px;
+  padding-top: 10px;
+  border-top: 1px solid #e2e8f0;
+}
+
+.map-legend-heading {
+  margin: 0 0 6px;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+  color: #475569;
+}
+
+.map-legend-ramp {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.map-legend-ramp.hidden {
+  display: none;
+}
+
+.map-legend-ramp-bar {
+  width: 100%;
+  height: 14px;
+  border-radius: 4px;
+  border: 1px solid rgba(15, 23, 42, 0.15);
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.35);
+}
+
+.map-legend-ramp-labels {
+  display: flex;
+  justify-content: space-between;
+  gap: 8px;
+  font-size: 11px;
+  font-variant-numeric: tabular-nums;
+  color: #334155;
+}
+
+.map-legend-ramp-bound {
+  white-space: nowrap;
+}
+
+.map-legend-poi {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.map-legend-poi-row {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.map-legend-poi-row--hidden .map-legend-poi-label,
+.map-legend-poi-row--hidden .map-legend-poi-count {
+  opacity: 0.55;
+}
+
+.map-legend-poi-toggle {
+  flex: 0 0 auto;
+  display: inline-flex;
+  cursor: pointer;
+  line-height: 0;
+}
+
+.map-legend-poi-swatch {
+  flex: 0 0 12px;
+  width: 12px;
+  height: 12px;
+  border-radius: 9999px;
+  border: 2px solid #fff;
+  box-shadow: 0 0 0 1px rgba(15, 23, 42, 0.15);
+}
+
+.map-legend-stop-label,
+.map-legend-poi-label {
+  flex: 1 1 auto;
+  min-width: 0;
+}
+
+.map-legend-poi-count {
+  flex: 0 0 auto;
+  font-variant-numeric: tabular-nums;
+  color: #64748b;
+}
+
+.map-legend-footnote,
+.map-legend-empty {
+  margin: 6px 0 0;
+  font-size: 10px;
+  color: #64748b;
+}
+
+.map-feature-panel {
+  width: min(16rem, calc(100vw - 24px));
+}
+
+.map-feature-panel-placeholder {
+  margin: 0;
+  font-size: 11px;
+  color: #64748b;
+}
+
+.map-feature-panel.is-empty .map-feature-panel-body {
+  display: none;
+}
+
+.map-feature-panel:not(.is-empty) .map-feature-panel-placeholder {
+  display: none;
+}
+
+.map-feature-panel-title {
+  margin: 0 0 6px;
+  font-size: 13px;
+  font-weight: 600;
+  line-height: 1.3;
+}
+
+.map-feature-panel-rent {
+  margin: 0 0 8px;
+  font-size: 11px;
+  color: #475569;
+}
+
+.map-feature-panel-rent-number {
+  margin: 0 0 8px;
+  font-size: 12px;
+  font-weight: bold;
+  color: #000000;
+}
+
+.map-feature-panel-subhead {
+  margin: 0 0 4px;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+  color: #475569;
+}
+
+.map-feature-panel-markers {
+  margin: 0;
+  padding: 0;
+  max-height: 9rem;
+  overflow-y: auto;
+  list-style: none;
+}
+
+.drawer-section-tip {
+  display: inline-flex;
+  outline: none;
+}
+
+.drawer-section-tooltip {
+  white-space: nowrap;
+  pointer-events: none;
+}
+
+.drawer-section-tooltip.hidden {
+  display: none;
+}
+
+@media (max-width: 700px) {
+  .map-corner-stack {
+    top: 8px;
+    left: 8px;
+    max-width: min(14rem, calc(100vw - 5rem));
+  }
+
+  .map-legend {
+    max-width: min(14rem, calc(100vw - 5rem));
+  }
+
+  .map-feature-panel {
+    display: none;
+  }
+}
+
+@media (pointer: coarse) {
+  .map-feature-panel {
+    display: none;
+  }
+}
+
+/* Phone tap summary — centered card with side inset (not full-width bottom sheet). */
+#state-hover-dialog.modal {
+  place-items: center;
+  padding: 1rem;
+}
+
+#state-hover-dialog .state-hover-modal-box {
+  width: min(22rem, calc(100vw - 2rem));
+  max-width: calc(100vw - 2rem);
+  margin-inline: auto;
+}
+
+.poi-marker {
+  width: 14px;
+  height: 14px;
+  border-radius: 9999px;
+  border: 2px solid var(--color-base-100);
+  background: var(--color-primary);
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.35);
+  cursor: pointer;
+}
+
+.overlay-inset {
+  position: absolute;
+  z-index: 35;
+  left: var(--left, 12px);
+  bottom: var(--bottom, 12px);
+  width: var(--card-w, clamp(190px, 22vw, 280px));
+  transform-origin: top left;
+  transition:
+    top 280ms ease,
+    left 280ms ease,
+    right 280ms ease,
+    bottom 280ms ease,
+    width 280ms ease,
+    height 280ms ease;
+}
+
+.overlay-inset .inset-zoom-icon-shrink {
+  display: none;
+}
+
+.overlay-inset.expanded .inset-zoom-icon-expand {
+  display: none;
+}
+
+.overlay-inset.expanded .inset-zoom-icon-shrink {
+  display: inline-flex;
+}
+
+.overlay-map {
+  background: rgba(255, 255, 255, 0.95);
+  border: 1px solid #d9e1ec;
+  border-radius: 10px;
+  padding: 10px;
+  box-shadow: 0 6px 20px rgba(15, 23, 42, 0.22);
+}
+
+.overlay-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 8px;
+  cursor: grab;
+  user-select: none;
+  touch-action: none;
+}
+
+.overlay-inset.is-dragging .overlay-header {
+  cursor: grabbing;
+}
+
+/* Drag updates left/top every frame; transitions would fight the pointer and feel sluggish */
+.overlay-inset.is-dragging {
+  transition: none !important;
+}
+
+/* Expand/minimize FLIP animation uses transform — avoid stray native transitions stacking */
+.overlay-inset.is-inset-flipping.is-dragging {
+  transition: none !important;
+}
+
+.overlay-inset.is-inset-flipping .overlay-header {
+  cursor: default;
+}
+
+.overlay-map h2 {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  margin: 0;
+  font-size: 14px;
+  line-height: 1.25;
+  color: #0f172a;
+  font-weight: 600;
+}
+
+.overlay-map-frame {
+  width: 100%;
+  height: var(--frame-h, clamp(120px, 14vw, 180px));
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.overlay-inset.is-hidden {
+  display: none;
+}
+
+.overlay-inset.is-closing .overlay-map {
+  animation: inset-close 220ms ease forwards;
+}
+
+.overlay-inset.is-opening .overlay-map {
+  animation: inset-open 220ms ease forwards;
+}
+
+@keyframes inset-close {
+  from {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  to {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+}
+
+@keyframes inset-open {
+  from {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .overlay-inset.is-closing .overlay-map,
+  .overlay-inset.is-opening .overlay-map {
+    animation: none;
+  }
+}
+
+#map-hawaii .mapboxgl-ctrl-bottom-left,
+#map-hawaii .mapboxgl-ctrl-bottom-right,
+#map-alaska .mapboxgl-ctrl-bottom-left,
+#map-alaska .mapboxgl-ctrl-bottom-right {
+  display: none;
+}
+
+/*
+ * Fill the shell. ID + .expanded beats @media `#inset-* { … !important }` width/bottom tweaks.
+ */
+#inset-alaska.expanded,
+#inset-hawaii.expanded {
+  inset: 0 !important;
+  width: auto !important;
+  max-width: none !important;
+  height: auto !important;
+}
+
+.overlay-inset.expanded {
+  z-index: 38;
+  display: flex;
+  flex-direction: column;
+}
+
+.overlay-inset.expanded .overlay-map {
+  flex: 1 1 auto;
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+}
+
+.overlay-inset.expanded .overlay-map-frame {
+  flex: 1 1 auto;
+  min-height: 0;
+  height: auto !important;
+}
+
+@media (max-width: 700px) {
+  .overlay-inset {
+    left: 12px !important;
+    width: min(240px, calc(100% - 24px));
+  }
+
+  #inset-hawaii {
+    bottom: 12px !important;
+  }
+
+  #inset-alaska {
+    bottom: 96px !important;
+  }
+
+  .overlay-map-frame {
+    display: none
+  }
+  .expanded .overlay-map-frame {
+    display: flex
+  }
+}
+
+@media (max-width: 420px) {
+  .overlay-inset {
+    left: 8px !important;
+    width: min(220px, calc(100% - 16px));
+  }
+
+  #inset-hawaii {
+    bottom: 8px !important;
+  }
+
+  #inset-alaska {
+    bottom: calc(var(--frame-h) + 60px) !important;
+  }
+}

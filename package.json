@@ -1,0 +1,26 @@
+{
+  "name": "project",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc && vite build",
+    "build:pages": "tsc && vite build --mode pages",
+    "preview": "vite preview",
+    "preview:pages": "npm run build:pages && vite preview --mode pages"
+  },
+  "devDependencies": {
+    "@types/node": "^25.6.0",
+    "autoprefixer": "^10.5.0",
+    "daisyui": "^5.5.19",
+    "postcss": "^8.5.13",
+    "tailwindcss": "^4.2.4",
+    "typescript": "~6.0.2",
+    "vite": "^8.0.10"
+  },
+  "dependencies": {
+    "@tailwindcss/vite": "^4.2.4",
+    "mapbox-gl": "^3.23.0"
+  }
+}
