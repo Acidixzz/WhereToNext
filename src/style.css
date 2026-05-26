@@ -490,7 +490,7 @@ h1 {
   }
 
   #inset-alaska {
-    bottom: 96px !important;
+    bottom: 84px !important;
   }
 
   .overlay-map-frame {
@@ -512,6 +512,6 @@ h1 {
   }
 
   #inset-alaska {
-    bottom: calc(var(--frame-h) + 60px) !important;
+    bottom: 78px !important;
   }
 }
