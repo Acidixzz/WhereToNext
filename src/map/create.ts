@@ -34,6 +34,8 @@ export async function createMaps(): Promise<MapTrio> {
         zoom: 4,
         minZoom: 4,
         maxBounds: US_MAINLAND_BOUNDS,
+        dragRotate: false,
+        touchZoomRotate: false,
     })
 
     mainMap.addControl(
@@ -48,6 +50,8 @@ export async function createMaps(): Promise<MapTrio> {
         fitBoundsOptions: { padding: 8 },
         maxBounds: HAWAII_BOUNDS,
         minZoom: 4,
+        dragRotate: false,
+        touchZoomRotate: false,
     })
 
     const alaskaMap = new mapboxgl.Map({
@@ -57,6 +61,8 @@ export async function createMaps(): Promise<MapTrio> {
         fitBoundsOptions: { padding: 8 },
         maxBounds: ALASKA_BOUNDS,
         minZoom: 0,
+        dragRotate: false,
+        touchZoomRotate: false,
     })
 
     return { mainMap, hawaiiMap, alaskaMap, mapboxAccessToken }
