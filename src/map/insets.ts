@@ -457,6 +457,10 @@ async function showInsetAnimated(inset: HTMLElement, id: InsetId): Promise<void>
         return
     }
 
+    inset.style.removeProperty('left');
+    inset.style.removeProperty('top');
+    inset.style.removeProperty('bottom');
+
     inset.classList.remove('is-closing', 'is-hidden')
     inset.classList.add('is-opening')
     void inset.offsetWidth
