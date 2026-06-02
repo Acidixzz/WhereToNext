@@ -46,7 +46,7 @@ h1 {
   position: absolute;
   top: 12px;
   left: 12px;
-  z-index: 32;
+  z-index: 40;
   display: flex;
   flex-wrap: wrap;
   align-items: flex-start;
